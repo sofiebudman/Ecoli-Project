@@ -20,7 +20,7 @@ IDs <- c('LC848137.1', 'LC844827.1', 'LC844826.1','LC844825.1', 'LC844824.1',
          'LC817438.1', 'LC817437.1', 'LC817436.1', 'PP809701.1','LC815916.1', 
          'LC764402.1', 'LC796842.1', 'LC777926.1', 'LC777924.1','LC754127.1', 
          'LC747145.1', 'LC738862.1', 'LC732201.1', 'LC732200.1', 'LC730904.1',
-          'OU548744.1', 'LC712754.1', 'LC682250.1', 'LC682613.1', ' LC666913.1', 
+          'OU548744.1', 'LC712754.1', 'LC682250.1', 'LC682613.1', 'LC666913.1', 
           'LC666912.1', 'LC654900.1', 'LC654899.1', 'LC654898.1', 'LC654897.1',
          'LC654896.1', 'LC654892.1', 'LC654891.1', 'LC654890.1', 'LC648289.1',
          'LC649234.1', 'LC599972.1', 'LC599971.1', 'LC599970.1', 'LC599967.1',
@@ -30,9 +30,9 @@ sequences <- read.GenBank(IDs,
                           species.names = TRUE,
                           as.character = TRUE)
 write.dna(sequences, "sequences/DNA.fasta", format = "fasta")
-write.dna(sequences, "sequences/DNA-simple.fasta", format = "fasta")
+write.dna(sequences, "sequences/DNA.fasta", format = "fasta")
 
-fasta_content <- readLines("sequences/DNA-simple.fasta")
+fasta_content <- readLines("sequences/DNA.fasta")
 writeLines(fasta_content, "sequences/DNA-simple.txt")
 #Annotated with the strain name
 
@@ -74,6 +74,7 @@ D <- dist.alignment(dna, matrix = "similarity") #only works if all have the same
 D[is.na(D)] <- 0
 #normalize d between 0 and 1
 temp <- as.data.frame(as.matrix(D)) #data frame
+png("figures/dist_alignment_heat_map.png", width = 800, height = 800, res = 100) #save image
 table.paint(temp, cleg = 0, clabel.row = .5, clabel.col = .5)+
   scale_color_viridis()
 #order shades + colors based on similarities
@@ -82,17 +83,21 @@ tre <- nj(D)
 class(tre)
 tre <- ladderize(tre)
 #base R plot
+
 plot(tre, cex = 0.6)
 title("E.Coli Similarity based on the 16s rRNA")
+dev.off()
 
 #cluster dendogram
 h_cluster <- hclust(D, method = "average", members = NULL)
 plot(h_cluster, cex = 0.6, main = "E.Coli Similarity based on the 16s rRNA (Dendogram)" )
 
+
 #plot with ggtree - fanned plot
 ggtree(tre, yscale = "NA")+
   geom_tiplab(hjust = -0.3, size = 4, align = TRUE)+
   xlim(0,0.5)
+ggsave("figures/e_coli_tree_fanned_plot.png")
 
 #basic tree
 ggtree(tre)+
