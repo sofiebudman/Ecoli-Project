@@ -13,4 +13,7 @@ then I saved it as a .txt file and annotated it with the corresponding strain na
 
 I used several packages to align the sequences and view the sequence alignment
 
-![seq alignment](images/Screenshot 2024-11-28 at 10.24.30 AM.png)
+
+
+## Phylogenetic Tree
+I utilized a phylogenetic tree to trace the evolution of various Escherichia coli strains. I got data from the NCBI blast tool and took various genomes of the S16 rRNA. I annotated the genomes and then did sequence alignment to determine how related different strains were. Finally, I created a distance matrix and plotted the results with various visualizations of a phylogenetic tree. This analysis is important because understanding the evolutionary pathways of bacteria helps us anticipate changes that might impact treatment's effectiveness and public health strategies.
