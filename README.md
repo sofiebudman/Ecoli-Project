@@ -1,5 +1,5 @@
 # Antimicrobial Resistance: An R Data Science Analysis
-
+## Table of Contents
 ## Antimicrobial Resistance
 A current pressing real-world issue is Antimicrobial resistance (AMR). AMR occurs due to the quick evolutionary nature of bacteria, allowing them to render antibodies ineffective, which threatens our modern medicine and healthcare. An example of this is the bacteria Methicillin-resistant Staphylococcus aureus (MRSA) from the 1960s. Originally treatable with common antibiotics such as methicillin and penicillin, the misuse of MRSA led to it developing resistance. As a result, MRSA is now more challenging to treat and poses dangers to immunocompromised patients. The problem of AMR impacts the whole world and is exacerbated by the widespread misuse of antibiotics and the lack of awareness of the severe issue of AMR. In this data science/bioinformatics project, I try to address this issue by utilizing online tools and algorithms. 
 
