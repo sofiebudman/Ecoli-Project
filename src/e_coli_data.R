@@ -86,7 +86,7 @@ tre <- ladderize(tre)
 
 plot(tre, cex = 0.6)
 title("E.Coli Similarity based on the 16s rRNA")
-dev.off()
+
 
 #cluster dendogram
 h_cluster <- hclust(D, method = "average", members = NULL)
@@ -97,7 +97,7 @@ plot(h_cluster, cex = 0.6, main = "E.Coli Similarity based on the 16s rRNA (Dend
 ggtree(tre, yscale = "NA")+
   geom_tiplab(hjust = -0.3, size = 4, align = TRUE)+
   xlim(0,0.5)
-ggsave("figures/e_coli_tree_fanned_plot.png")
+
 
 #basic tree
 ggtree(tre)+
