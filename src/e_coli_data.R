@@ -105,8 +105,39 @@ ggtree(tre)+
   xlim(0,0.5)
 
 
-#plot alignment with tree
+#visualize alignment
+#pacakges
+install.packages("seqinr")
+library(seqinr)
+alignment <- read.alignment("sequences/E_Coli_Aligned.fasta", format = "fasta")
+#print
+print(alignment)
 
-  
- 
+#use ape
+library(ape)
+dna_alignment <- read.dna("sequences/E_Coli_Aligned.fasta", format = "fasta")
+
+# Visualize alignment as an image
+image(dna_alignment)
+
+
+#use ggmsa
+if (!requireNamespace("devtools", quietly=TRUE))
+  install.packages("devtools")
+devtools::install_github("YuLab-SMU/ggmsa")
+
+#create msa
+
+install.packages("msa")
+library(msa)
+library(Biostrings)
+aligned_e_coli <- readDNAStringSet("sequences/E_Coli_Aligned.fasta")
+alignment <- msa(aligned_e_coli , method = "ClustalW", verbose = TRUE)  # You can also use "Muscle", "T-Coffee", etc.
+
+
+library(ggmsa)
+ggmsa(dna_alignment, 300, 350, color = "Clustal", font = "DroidSansMono", char_width = 0.5, seq_name = TRUE )
+
+
+
   
