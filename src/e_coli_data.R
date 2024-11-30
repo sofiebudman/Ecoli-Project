@@ -1,26 +1,20 @@
-#data from NCBI ECOLI S16 rRNA 
+#data from NCBI ECOLI S16 rRNA
 #https://www.ncbi.nlm.nih.gov/nuccore
 library(ape)
 #character vector of accession numbers for the project
 
-strains <- c('IRQBAS-238', 'Aqeel10', 'Aqeel9', 'Aqeel9', 'Aqeel7', 'Aqeel6', 
-             'Aqeel5', 'Aqeel4', 'Aqeel3', 'Aqeel2', 'Aqeel1', 'FaMsAh', 'KSA-89', 
-             'KSA-15', 'RMA20', 'RMA19', 'RMA17', 'RMA15', 'RMA14','RMA12', 'RMA11', 
-             'RMA18', 'RMA16', 'IRAQ-RAM2', 'HKA1', 'AAE', 'STF-8', 'VANM4', 'VANM2', 
-             'SSH1', 'KSE34', 'IQ1','SAS2', 'SAS1', 'ATCC:25922', 'MBG-DUTH', 'BAGh-M1', 
+strains <- c('IRQBAS-238', 'Aqeel10', 'Aqeel9', 'Aqeel9', 'Aqeel7', 'Aqeel6',
+             'Aqeel5', 'Aqeel4', 'Aqeel3', 'STF-8', 'VANM4', 'VANM2',
+             'SSH1', 'KSE34', 'IQ1','SAS2', 'SAS1', 'ATCC:25922', 'MBG-DUTH', 'BAGh-M1',
              'JCM-16946','VL8', 'DH7', 'H7', 'JCM-20932', 'JCM-20931', 'JCM-20377', 'JCM-20376',
              'JCM-20375', 'JCM-20351', 'JCM-20350', 'JCM-20349', 'IRQBAS127', 'M30', 'E65-Zambia2018',
              'E64-Zambia2018', 'E63-Zambia2018', 'E58-Zambia2018', 'E57-Zambia2018', 'E50-Zambia2018',
              'E48-Zambia2018')
 #accession numbers: LC848137.1, LC844827.1, LC844826.1, LC844825.1,LC844824.1
 IDs <- c('LC848137.1', 'LC844827.1', 'LC844826.1','LC844825.1', 'LC844824.1',
-         'LC844823.1','LC844822.1','LC844821.1', 'LC844820.1', 'LC844819.1', 
-         'LC844818.1', 'LC842012.1', 'LC834164.1', 'LC834134.1','LC817444.1', 
-         'LC817443.1', 'LC817442.1','LC817441.1', 'LC817440.1', 'LC817439.1',
-         'LC817438.1', 'LC817437.1', 'LC817436.1', 'PP809701.1','LC815916.1', 
-         'LC764402.1', 'LC796842.1', 'LC777926.1', 'LC777924.1','LC754127.1', 
+         'LC844823.1','LC844822.1','LC844821.1', 'LC844820.1', 'LC796842.1', 'LC777926.1', 'LC777924.1','LC754127.1',
          'LC747145.1', 'LC738862.1', 'LC732201.1', 'LC732200.1', 'LC730904.1',
-          'OU548744.1', 'LC712754.1', 'LC682250.1', 'LC682613.1', 'LC666913.1', 
+          'OU548744.1', 'LC712754.1', 'LC682250.1', 'LC682613.1', 'LC666913.1',
           'LC666912.1', 'LC654900.1', 'LC654899.1', 'LC654898.1', 'LC654897.1',
          'LC654896.1', 'LC654892.1', 'LC654891.1', 'LC654890.1', 'LC648289.1',
          'LC649234.1', 'LC599972.1', 'LC599971.1', 'LC599970.1', 'LC599967.1',
@@ -74,7 +68,7 @@ D <- dist.alignment(dna, matrix = "similarity") #only works if all have the same
 D[is.na(D)] <- 0
 #normalize d between 0 and 1
 temp <- as.data.frame(as.matrix(D)) #data frame
-png("figures/dist_alignment_heat_map.png", width = 800, height = 800, res = 100) #save image
+
 table.paint(temp, cleg = 0, clabel.row = .5, clabel.col = .5)+
   scale_color_viridis()
 #order shades + colors based on similarities
@@ -127,17 +121,38 @@ if (!requireNamespace("devtools", quietly=TRUE))
 devtools::install_github("YuLab-SMU/ggmsa")
 
 #create msa
+if (!require("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
 
-install.packages("msa")
+BiocManager::install("msa")
+browseVignettes("msa")
 library(msa)
-library(Biostrings)
-aligned_e_coli <- readDNAStringSet("sequences/E_Coli_Aligned.fasta")
-alignment <- msa(aligned_e_coli , method = "ClustalW", verbose = TRUE)  # You can also use "Muscle", "T-Coffee", etc.
 
+if (!requireNamespace("devtools", quietly=TRUE))
+  install.packages("devtools")
+devtools::install_github("YuLab-SMU/ggmsa")
+
+
+#put in msa format
+mySequences <- readAAStringSet("sequences/DNA.fasta")
+#view
+mySequences
+
+#align
+myFirstAlignment <- msa(mySequences)
+myFirstAlignment
+
+myFirstAlignment <- as(myFirstAlignment, "DNAStringSet")
+# Reassign the original names
+names(myFirstAlignment) <- names(mySequences)
+
+print(myFirstAlignment, show = "complete")
+
+writeXStringSet(as(myFirstAlignment, "DNAStringSet"), "msa-alignment.fasta")
 
 library(ggmsa)
-ggmsa(dna_alignment, 300, 350, color = "Clustal", font = "DroidSansMono", char_width = 0.5, seq_name = TRUE )
+
+ggmsa("msa-alignment.fasta", 1080, 1340, color = "Clustal", font = "DroidSansMono", char_width = 0.5, seq_name = TRUE )
 
 
 
-  
