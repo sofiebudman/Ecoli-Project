@@ -1,0 +1,7 @@
+Year,State,HAI,Facility_ID1,Facility_Name1,County,Cases,Patient_Days,Incidence_Rate,CI_95_Lower_Limit,CI_95_Upper_Limit,Compared_To_Pooled_Mean_Rate,Notes
+2014,California,Methicillin-Resistant Staphylococcus aureus Bloodstream Infection (MRSA BSI),240001218,Ballard Rehabilitation Hospital,San Bernardino,1,17018,0.59,0.01,3.27,No Different,
+2014,California,Methicillin-Resistant Staphylococcus aureus Bloodstream Infection (MRSA BSI),930000020,Casa Colina Hospital for Rehabilitative Medicine,Los Angeles,0,21612,0,0,1.39,No Different,
+2014,California,Methicillin-Resistant Staphylococcus aureus Bloodstream Infection (MRSA BSI),120000555,Healthsouth Bakersfield Rehabilitation Hospital,Kern,0,21596,0,0,1.39,No Different,
+2014,California,Methicillin-Resistant Staphylococcus aureus Bloodstream Infection (MRSA BSI),060001097,Healthsouth Tustin Rehabilitation Hospital,Orange,0,14996,0,0,2,No Different,
+2014,California,Methicillin-Resistant Staphylococcus aureus Bloodstream Infection (MRSA BSI),040000613,San Joaquin Valley Rehab Hospital,Fresno,0,18589,0,0,1.61,No Different,
+2014,California,Methicillin-Resistant Staphylococcus aureus Bloodstream Infection (MRSA BSI),110000069,The General Hospital,Humboldt,0,2620,0,0,11.43,No Different,
