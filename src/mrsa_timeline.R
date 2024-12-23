@@ -1,0 +1,8 @@
+library(tidyverse)
+mrsa_2013 <- read.csv("data/MRSA_bloodstream_CA_2013.csv")
+mrsa_2014 <- read.csv("data/MRSA_bloodstream_CA_2014.csv")
+mrsa_2015 <- read.csv("data/MRSA_bloodstream_CA_2015.csv")
+mrsa_2016 <- read.csv("data/MRSA_bloodstream_CA_2016.csv")
+mrsa_2017 <- read.csv("data/MRSA_bloodstream_CA_2017.csv")
+mrsa_2018 <- read.csv("data/MRSA_bloodstream_CA_2018.csv")
+mrsa_2019 <- read.csv("data/MRSA_bloodstream_CA_2019.csv")
