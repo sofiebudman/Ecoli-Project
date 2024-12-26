@@ -72,10 +72,25 @@ levels(tsne_for_plot$class) <- c("cytoplasm", "inner membrane without signal seq
 ##plot the t-sne distribution
 ggplot(tsne_for_plot, aes(x = tSNE1, y = tSNE2, color = class)) +
   geom_point(size = 2) + # Adjust point size if needed
-  theme_minimal() + # Use a clean theme
   labs(
     title = "t-SNE Plot for E. Coli potential genes",
+    subtitle = "Dimensionality reduction visualization",
     x = "tSNE Dimension 1",
     y = "tSNE Dimension 2",
     color = "Class" # Legend title
+  )+
+  theme(
+    plot.title = element_text(color = "black", face = "bold", hjust = 0.5, size = 16),
+    plot.subtitle = element_text(size = 12, hjust = 0.5, face = "italic"), # Add a subtle subtitle
+    legend.position = "bottom",
+    legend.title = element_text(size = 12, face = "bold", hjust = 0.5), # Improve legend title visibility
+    legend.box = "vertical",
+    legend.text = element_text(size = 5), # Improve readability of legend items
+    axis.title = element_text(size = 12), # Increase axis title size for readability
+    axis.text = element_text(size = 10) # Increase tick label size
+
+
+  )+
+  guides(
+    color = guide_legend(title.position = "top",nrow = 3, byrow = TRUE) # Arrange legend items in a single row
   )
