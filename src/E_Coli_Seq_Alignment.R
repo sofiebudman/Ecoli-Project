@@ -1,8 +1,30 @@
+## E COLI Sequence Alignment
+
 #data from NCBI ECOLI S16 rRNA
 #https://www.ncbi.nlm.nih.gov/nuccore
-library(ape)
-#character vector of accession numbers for the project
 
+#install and load required packages
+
+install.packages("remotes")
+remotes::install_github("GuangchuangYu/treeio")
+install.packages("BiocManager")
+BiocManager::install("ggtree")
+BiocManager::install("DECIPHER")
+install.packages("viridis")
+install.packages("adegenet")
+install.packages("seqinr")
+
+library(seqinr)
+library(adegenet)
+library(ape)
+library(ggtree)
+library(DECIPHER)
+library(viridis)
+library(ggplot2)
+library(ape)
+library(ggmsa)
+
+#character vector of accession numbers for the project
 strains <- c('IRQBAS-238', 'Aqeel10', 'Aqeel9', 'Aqeel9', 'Aqeel7', 'Aqeel6',
              'Aqeel5', 'Aqeel4', 'Aqeel3', 'STF-8', 'VANM4', 'VANM2',
              'SSH1', 'KSE34', 'IQ1','SAS2', 'SAS1', 'ATCC:25922', 'MBG-DUTH', 'BAGh-M1',
@@ -10,6 +32,7 @@ strains <- c('IRQBAS-238', 'Aqeel10', 'Aqeel9', 'Aqeel9', 'Aqeel7', 'Aqeel6',
              'JCM-20375', 'JCM-20351', 'JCM-20350', 'JCM-20349', 'IRQBAS127', 'M30', 'E65-Zambia2018',
              'E64-Zambia2018', 'E63-Zambia2018', 'E58-Zambia2018', 'E57-Zambia2018', 'E50-Zambia2018',
              'E48-Zambia2018')
+
 #accession numbers: LC848137.1, LC844827.1, LC844826.1, LC844825.1,LC844824.1
 IDs <- c('LC848137.1', 'LC844827.1', 'LC844826.1','LC844825.1', 'LC844824.1',
          'LC844823.1','LC844822.1','LC844821.1', 'LC844820.1', 'LC796842.1', 'LC777926.1', 'LC777924.1','LC754127.1',
@@ -19,6 +42,8 @@ IDs <- c('LC848137.1', 'LC844827.1', 'LC844826.1','LC844825.1', 'LC844824.1',
          'LC654896.1', 'LC654892.1', 'LC654891.1', 'LC654890.1', 'LC648289.1',
          'LC649234.1', 'LC599972.1', 'LC599971.1', 'LC599970.1', 'LC599967.1',
          'LC599966.1', 'LC599964.1', 'LC599963.1')
+
+#obtain sequences using accession numbers from genbank
 sequences <- read.GenBank(IDs,
                           seq.names = IDs,
                           species.names = TRUE,
@@ -26,48 +51,33 @@ sequences <- read.GenBank(IDs,
 write.dna(sequences, "sequences/DNA.fasta", format = "fasta")
 write.dna(sequences, "sequences/DNA.fasta", format = "fasta")
 
+#Annotated with the strain name
 fasta_content <- readLines("sequences/DNA.fasta")
 writeLines(fasta_content, "sequences/DNA-simple.txt")
-#Annotated with the strain name
+
 
 
 #sequence analysis
-install.packages("remotes")
-remotes::install_github("GuangchuangYu/treeio")
-install.packages("BiocManager")
-BiocManager::install("ggtree")
-BiocManager::install("DECIPHER")
-install.packages("viridis")
-install.packages("adegenet")
-
-library(seqinr)
-library(adegenet)
-library(ape)
-library(ggtree)
-library(DECIPHER)
-library(viridis)
-library(ggplot2)
-
 seqs <- readDNAStringSet("sequences/DNA-simple.txt", format = "fasta")
-seqs #view
+seqs
 seqs <- OrientNucleotides(seqs)
 aligned <- AlignSeqs(seqs)
 #aligns similarities and trims to same length
 
-#brose sequences
+#browse sequence alignment
 BrowseSeqs(aligned, highlight = 0)
 
-#save as new fasta
+#save as new fasta file
 writeXStringSet(aligned, file = "sequences/E_Coli_Aligned.fasta")
 
 dna <- read.alignment("sequences/E_Coli_Aligned.fasta", format = "fasta")
 
 
-#distance matrix
+#create distance matrix
 D <- dist.alignment(dna, matrix = "similarity") #only works if all have the same length
 D[is.na(D)] <- 0
 #normalize d between 0 and 1
-temp <- as.data.frame(as.matrix(D)) #data frame
+temp <- as.data.frame(as.matrix(D))
 
 table.paint(temp, cleg = 0, clabel.row = .5, clabel.col = .5)+
   scale_color_viridis()
@@ -100,9 +110,7 @@ ggtree(tre)+
 
 
 #visualize alignment
-#pacakges
-install.packages("seqinr")
-library(seqinr)
+
 alignment <- read.alignment("sequences/E_Coli_Aligned.fasta", format = "fasta")
 #print
 print(alignment)
@@ -150,7 +158,7 @@ print(myFirstAlignment, show = "complete")
 
 writeXStringSet(as(myFirstAlignment, "DNAStringSet"), "msa-alignment.fasta")
 
-library(ggmsa)
+
 
 ggmsa("msa-alignment.fasta", 1080, 1340, color = "Clustal", font = "DroidSansMono", char_width = 0.5, seq_name = TRUE )
 

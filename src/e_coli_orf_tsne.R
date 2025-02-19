@@ -1,10 +1,20 @@
 #data from https://archive.ics.uci.edu/dataset/120/e+coli+genes
+
 #Data giving characteristics of each ORF (potential gene) in the
 #E. coli genome. Sequence, homology (similarity to other genes) and
 #structural information, and function (if known) are provided.
 
+#This dataset contains various features related to protein localization in E. Coli
+
+##load packages
+library(ggplot2)
+library(dplyr)
+library(ggplot2)
+library(Rtsne)
+
 
 data <- read.table(("ecoli/ecoli.data"))
+head(data)
 data <- as.data.frame(data)
 colnames(data) <- c("Sequence ID","mcg", "gvh", "lip", "chg", "aac","alm1", "alm2", "class" )
 #Sequence ID - accession number from the SWISS-PROT database
@@ -29,10 +39,10 @@ colnames(data) <- c("Sequence ID","mcg", "gvh", "lip", "chg", "aac","alm1", "alm
 classes <- data$class
 classes <- as.data.frame(classes)
 classes$classes <- as.factor(classes$classes)
-levels(classes$classes) <- c("cytoplasm", "inner membrane without signal sequence",
-                             "perisplasm", "inner membrane, uncleavable signal sequence",
-                             "outer membrane", "outer membrane lipoprotein",
-                             "inner membrane lipoprotein", "inner membrane, cleavable signal sequence")
+#levels(classes$classes) <- c("cytoplasm", "inner membrane without signal sequence",
+#                            "perisplasm", "inner membrane, uncleavable signal sequence",
+#                             "outer membrane", "outer membrane lipoprotein",
+#                             "inner membrane lipoprotein", "inner membrane, cleavable signal sequence")
 
 
 
@@ -47,17 +57,15 @@ ggplot(classes, aes(classes), color = classes)+
 
 
 #create cluster graphs for each clas
-#
-library(dplyr)
+
 data_process <- data[,-c(1,9)]
 data$class <- as.factor(data$class)
 data$class <- as.numeric(data$class)
 ecoli_matrix <- as.matrix(data_process)
-library(ggplot2)
-library(Rtsne)
+
 set.seed(42)#for reproducible results
 tsne <- Rtsne(ecoli_matrix, pca = FALSE, perplexity = 30, theta = 0.0)
-plot(tsne$Y,col=data$class, asp=1)
+plot(tsne$Y,col=data$class, asp=1) #simpel graph
 
 tsne_for_plot <- data.frame(
   tSNE1 <-tsne$Y[,1],
@@ -73,7 +81,7 @@ levels(tsne_for_plot$class) <- c("cytoplasm", "inner membrane without signal seq
 ggplot(tsne_for_plot, aes(x = tSNE1, y = tSNE2, color = class)) +
   geom_point(size = 2) + # Adjust point size if needed
   labs(
-    title = "t-SNE Plot for E. Coli potential genes",
+    title = "t-SNE Plot for Localization of E. Coli ORFs",
     subtitle = "Dimensionality reduction visualization",
     x = "tSNE Dimension 1",
     y = "tSNE Dimension 2",
