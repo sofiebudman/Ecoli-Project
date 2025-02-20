@@ -11,9 +11,10 @@ library(ggplot2)
 library(dplyr)
 library(ggplot2)
 library(Rtsne)
+library(caret)
 
 
-data <- read.table(("ecoli/ecoli.data"))
+data <- read.table(("orf_localization/ecoli.data"))
 head(data)
 data <- as.data.frame(data)
 colnames(data) <- c("Sequence ID","mcg", "gvh", "lip", "chg", "aac","alm1", "alm2", "class" )
@@ -53,6 +54,8 @@ ggplot(classes, aes(classes), color = classes)+
   labs(title = "Distribution of subcellular localizations")+
   ylab ("occurence")+
   xlab("location")
+
+ggsave("orf_localization/results/distribution_bar_chart.png")
 
 
 
@@ -102,3 +105,10 @@ ggplot(tsne_for_plot, aes(x = tSNE1, y = tSNE2, color = class)) +
   guides(
     color = guide_legend(title.position = "top",nrow = 3, byrow = TRUE) # Arrange legend items in a single row
   )
+
+ggsave("orf_localization/results/orf_tsne.png")
+
+
+
+
+
