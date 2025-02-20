@@ -3,22 +3,22 @@ load_seq_from_gen_bank <- function(IDs, seq.names = IDs, species.names = TRUE, a
   sequences <- list()  # Empty list to store results
 
   for (i in seq_along(IDs)) {
-    # Construct URL to fetch GenBank sequence in FASTA format
+    # URL to get info
     url <- paste0(base_url, IDs[i], "&report=fasta&retmode=text")
 
     # Read data from NCBI
     raw_data <- readLines(url, warn = FALSE)
 
-    # Extract and clean the sequence (remove header)
-    sequence <- paste(raw_data[-1], collapse = "")  # Remove first line (header)
+    # Extract and clean
+    sequence <- paste(raw_data[-1], collapse = "")  # Remove > header
 
-    # Get species name if requested
+    # if statement for species name
     species <- NA
     if (species.names) {
       species_url <- paste0("https://www.ncbi.nlm.nih.gov/nuccore/", IDs[i])
       species_page <- readLines(species_url, warn = FALSE)
 
-      # Try to extract species name from webpage HTML (basic regex search)
+
       match <- grep("title=\".*?\\(", species_page, value = TRUE)
       if (length(match) > 0) {
         species <- sub(".*title=\"(.*?) \\(.*", "\\1", match[1])

@@ -5,10 +5,8 @@
 
 #install and load required packages
 
-install.packages("remotes")
-remotes::install_github("GuangchuangYu/treeio")
 install.packages("BiocManager")
-BiocManager::install("ggtree")
+
 BiocManager::install("DECIPHER")
 install.packages("viridis")
 install.packages("adegenet")
@@ -17,11 +15,9 @@ install.packages("seqinr")
 library(seqinr)
 library(adegenet)
 library(ape)
-library(ggtree)
 library(DECIPHER)
 library(viridis)
 library(ggplot2)
-library(ape)
 library(ggmsa)
 
 #character vector of accession numbers for the project
@@ -68,4 +64,34 @@ BrowseSeqs(aligned, highlight = 0)
 
 #save as new fasta file
 writeXStringSet(aligned, file = "multiple_sequence_alignment/ecoli_MSA.fasta")
+
+
+#visualize alignment
+
+alignment <- read.alignment("multiple_sequence_alignment/ecoli_MSA.fasta", format = "fasta")
+print(alignment)
+
+
+#visualize alignment as image
+dna_alignment <- read.dna("multiple_sequence_alignment/ecoli_MSA.fasta", format = "fasta")
+image(dna_alignment)
+
+
+#ggmsa - does not work
+#put in msa format
+#mySequences <- readAAStringSet("sequences/ecoli_strain_seqs.fasta")
+#view
+#mySequences
+#align
+#myFirstAlignment <- msa(mySequences)
+#myFirstAlignment
+#myFirstAlignment <- as(myFirstAlignment, "DNAStringSet")
+# Reassign the original names
+#names(myFirstAlignment) <- names(mySequences)
+#print(myFirstAlignment, show = "complete")
+#writeXStringSet(as(myFirstAlignment, "DNAStringSet"), "msa-alignment.fasta")
+#ggmsa("msa-alignment.fasta", 1080, 1340, color = "Clustal", font = "DroidSansMono", char_width = 0.5, seq_name = TRUE )
+
+
+
 
