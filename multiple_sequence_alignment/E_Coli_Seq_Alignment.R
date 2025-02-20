@@ -43,19 +43,25 @@ IDs <- c('LC848137.1', 'LC844827.1', 'LC844826.1','LC844825.1', 'LC844824.1',
          'LC649234.1', 'LC599972.1', 'LC599971.1', 'LC599970.1', 'LC599967.1',
          'LC599966.1', 'LC599964.1', 'LC599963.1')
 
-#obtain sequences using accession numbers from genbank
-sequences <- read.GenBank(IDs,
-                          seq.names = IDs,
-                          species.names = TRUE,
-                          as.character = TRUE)
-write.dna(sequences, "sequences/DNA.fasta", format = "fasta")
-write.dna(sequences, "sequences/DNA.fasta", format = "fasta")
+#obtain sequences using accession numbers from genbank'
 
-#Annotated with the strain name
-fasta_content <- readLines("sequences/DNA.fasta")
-writeLines(fasta_content, "sequences/DNA-simple.txt")
+s <- load_seq_from_gen_bank(IDs,
+                         seq.names = IDs,
+                         species.names = TRUE,
+                         as.character = TRUE)
+s <- DNAStringSet(unlist(s))
+
+write.dna(s, "multiple_sequence_alignment/ecoli_strain_seqs.fasta", format = "fasta", nbcol = -1)
+
+fasta_content <- readLines("multiple_sequence_alignment/ecoli_strain_seqs.fasta")
+writeLines(fasta_content, "multiple_sequence_alignment/ecoli_strain_seqs.txt")
 
 
+
+seqs <- readDNAStringSet("multiple_sequence_alignment/ecoli_strain_seqs.fasta", format = "fasta") #ignore warning
+seqs
+seqs <- OrientNucleotides(seqs)
+aligned <- AlignSeqs(seqs)
 
 #sequence analysis
 seqs <- readDNAStringSet("sequences/DNA-simple.txt", format = "fasta")
