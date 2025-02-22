@@ -7,4 +7,3 @@ Using data from NCBI and UCI Machine Learning Database on E. Coli strains and po
 /phylogenetic_trees: Create phylogenetic trees of different strains of E. coli
 
 /orf_localization: predict locations of potential genes of E. coli using UCI dataset
- 
